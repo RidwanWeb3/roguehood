@@ -36,13 +36,13 @@ export function Hero() {
         <img
           src={banner}
           alt=""
-          className="w-full h-full object-cover opacity-25"
+          className="w-full h-full object-cover opacity-70"
         />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, oklch(0.08 0.02 145 / 60%) 0%, oklch(0.08 0.02 145 / 30%) 40%, oklch(0.08 0.02 145 / 95%) 100%)",
+              "linear-gradient(180deg, oklch(0.08 0.02 145 / 70%) 0%, oklch(0.08 0.02 145 / 40%) 40%, oklch(0.08 0.02 145 / 95%) 100%)",
           }}
         />
       </motion.div>
