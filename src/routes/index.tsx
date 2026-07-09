@@ -1,24 +1,62 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LoadingScreen } from "@/components/rogue/Loading";
+import { Nav } from "@/components/rogue/Nav";
+import { Hero } from "@/components/rogue/Hero";
+import {
+  Story,
+  About,
+  Why,
+  Tokenomics,
+  Community,
+  Social,
+  FAQ,
+  Footer,
+} from "@/components/rogue/Sections";
+import { FlyingArrow } from "@/components/rogue/Ambience";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: "ROGUEHOOD | The Smartest Outlaw on Robinhood Chain" },
+      {
+        name: "description",
+        content:
+          "Join the funniest outlaw community on Robinhood Chain. No kings. No villains. Just Rogues. $ROGUE — built by outlaws, for the community.",
+      },
+      { property: "og:title", content: "ROGUEHOOD | The Smartest Outlaw on Robinhood Chain" },
+      {
+        property: "og:description",
+        content:
+          "Join the funniest outlaw community on Robinhood Chain. No kings. No villains. Just Rogues.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+      { property: "og:image", content: "/favicon.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "/favicon.png" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <>
+      <LoadingScreen />
+      <Nav />
+      <FlyingArrow />
+      <main className="relative">
+        <Hero />
+        <Story />
+        <About />
+        <Why />
+        <Tokenomics />
+        <Community />
+        <Social />
+        <FAQ />
+        <Footer />
+      </main>
+    </>
   );
 }
