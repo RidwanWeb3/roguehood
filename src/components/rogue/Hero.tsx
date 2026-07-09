@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
-import banner from "@/assets/banneer.png";
+import banner from "@/assets/bannerhero.png";
 import logo from "@/assets/roguehood.png";
 import { Send, Coins } from "lucide-react";
 import { Fireflies, FloatingLeaves, Fog } from "./Ambience";
