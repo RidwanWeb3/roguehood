@@ -123,7 +123,7 @@ export function Hero() {
     return dialogues[index];
   };
 
-  // Function to type dialogue
+  // Function to type dialogue (slower speed)
   const typeDialogue = (text: string) => {
     setIsTyping(true);
     setDisplayedText("");
@@ -136,7 +136,7 @@ export function Hero() {
         clearInterval(interval);
         setIsTyping(false);
       }
-    }, 35);
+    }, 60); // Slower typing speed
   };
 
   // Change dialogue every 6-8 seconds
@@ -307,7 +307,7 @@ export function Hero() {
         >
           {/* Speech Bubble */}
           <motion.div
-            className="absolute -left-48 -top-16 z-20 pointer-events-none"
+            className="absolute -left-64 top-0 z-20 pointer-events-none"
             animate={{ 
               y: [0, -5, 0],
               opacity: [0.98, 1, 0.98],
