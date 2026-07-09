@@ -4,19 +4,34 @@ import banner from "@/assets/hero.png";
 import logo from "@/assets/roguehood.png";
 import { Send, Coins } from "lucide-react";
 import { Fireflies, FloatingLeaves, Fog } from "./Ambience";
+import { SpeechBubble } from "./SpeechBubble";
 
-// Simple, clear dialogue messages
+// Dialogue messages (20+)
 const dialogues = [
-  "👋 Hey there!",
-  "Welcome to Roguehood!",
-  "Click me for a surprise!",
-  "Nice to meet you!",
-  "Ready for adventure?",
-  "Join the gang!",
-  "Stay a while!",
-  "You're awesome!",
-  "Welcome home!",
-  "Let's have fun!",
+  "👋 Hey, Rogue!\nWelcome to my hideout.\nThe gang has been waiting for you.",
+  "😏 Looking for treasure?\nThe real treasure is the community.",
+  "🦊 Heroes chase glory.\nRogues build legends.",
+  "🏹 Don't tell the guards...\nYou're safe here.",
+  "💚 One Hood.\nOne Community.\nOne Mission.",
+  "🚀 Ready for the next legendary meme?\nYou're in the right place.",
+  "😄 Stay a while.\nExplore the Hood.",
+  "💰 I don't steal from friends...\nOnly from boring websites.",
+  "🔥 This isn't just another meme.\nIt's a movement.",
+  "🌙 The moon is up...\nPerfect time for Rogues.",
+  "🎉 Welcome, friend!\nThe forest feels brighter with you here.",
+  "🤫 Shhh... the whales are sleeping.\nPerfect time to explore.",
+  "✨ Ready to make history?\nYou're in the right place.",
+  "🏰 The castle is waiting.\nLet's go exploring.",
+  "🍃 The leaves are falling...\nJust like the prices of boring coins.",
+  "🌟 You're special.\nDon't let anyone tell you otherwise.",
+  "🎭 Normal is boring.\nBe a Rogue.",
+  "💎 The best treasure is friendship...\nAnd memes, of course.",
+  "⚡ Quick, click BUY!\nJust kidding... or am I?",
+  "🌲 The forest is alive...\nAnd so is our community.",
+  "🎯 My arrows never miss...\nMostly.",
+  "👑 No kings, no bosses.\nJust Rogues.",
+  "📜 Today's story is yours to write.",
+  "🎨 Let's create something legendary together."
 ];
 
 export function Hero() {
@@ -47,7 +62,7 @@ export function Hero() {
     return dialogues[index];
   };
 
-  // Function to type dialogue (slower speed)
+  // Function to type dialogue with 35ms speed, pause 1s after typing
   const typeDialogue = (text: string) => {
     setIsTyping(true);
     setDisplayedText("");
@@ -58,12 +73,14 @@ export function Hero() {
         i++;
       } else {
         clearInterval(interval);
-        setIsTyping(false);
+        setTimeout(() => {
+          setIsTyping(false);
+        }, 1000);
       }
-    }, 60); // Slower typing speed
+    }, 35);
   };
 
-  // Change dialogue every 6-8 seconds
+  // Change dialogue every 10-12 seconds
   useEffect(() => {
     const changeDialogue = () => {
       const newDialogue = getRandomDialogue();
@@ -77,8 +94,8 @@ export function Hero() {
     // Initial dialogue
     changeDialogue();
 
-    // Interval for changing dialogue
-    const dialogueInterval = setInterval(changeDialogue, 6000 + Math.random() * 2000);
+    // Interval for changing dialogue (10-12 seconds total, including typing time)
+    const dialogueInterval = setInterval(changeDialogue, 10000 + Math.random() * 2000);
 
     const h = (e: MouseEvent) => {
       mx.set(e.clientX / window.innerWidth - 0.5);
@@ -229,32 +246,11 @@ export function Hero() {
           style={{ x: fx, y: fy }}
           className="relative flex justify-center md:justify-end"
         >
-          {/* Speech Bubble - Comic Style */}
-          <motion.div
-            className="absolute -top-32 -left-16 md:-left-24 z-20 pointer-events-none"
-            animate={{ 
-              y: [0, -5, 0],
-              opacity: [0.98, 1, 0.98],
-              scale: isHovered ? 1.05 : [1, 1.02, 1]
-            }}
-            transition={{ 
-              y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-              opacity: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-              scale: { duration: 0.3 }
-            }}
-          >
-            <div className="relative bg-yellow-300 border-4 border-black rounded-3xl p-5 shadow-2xl" style={{
-              boxShadow: isHovered ? "0 0 40px rgba(255, 255, 0, 0.6)" : "0 0 20px rgba(0, 0, 0, 0.5)",
-              fontFamily: "Comic Sans MS, cursive, sans-serif"
-            }}>
-              {/* Curved tail pointing to mascot */}
-              <div className="absolute -bottom-5 left-10 w-12 h-12 bg-yellow-300 border-b-4 border-r-4 border-black rounded-br-full transform rotate-45"></div>
-              <p className="text-black font-bold text-base md:text-xl whitespace-pre-line">
-                {displayedText}
-                {isTyping && <span className="animate-pulse">...</span>}
-              </p>
-            </div>
-          </motion.div>
+          <SpeechBubble
+            text={displayedText}
+            isTyping={isTyping}
+            isHovered={isHovered}
+          />
 
           <motion.div
             key={bounceKey}
@@ -262,12 +258,12 @@ export function Hero() {
             animate={{ 
               y: [0, -3, 0], // 3px floating
               scale: [1, 1.02, 1], // breathing
-              rotate: [0, -1, 0] // slight head tilt
+              rotate: isHovered ? -2 : [0, -1, 0] // slight head tilt, more on hover
             }}
             transition={{ 
               y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
               scale: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-              rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+              rotate: { duration: isHovered ? 0.3 : 5, repeat: isHovered ? 0 : Infinity, ease: "easeInOut" },
               // Bounce on click
               type: "spring",
               stiffness: 300,
