@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
-import banner from "@/assets/bannerhero.png";
+import banner from "@/assets/hero.png";
 import logo from "@/assets/roguehood.png";
 import { Send, Coins } from "lucide-react";
 import { Fireflies, FloatingLeaves, Fog } from "./Ambience";
@@ -8,10 +8,12 @@ import { Fireflies, FloatingLeaves, Fog } from "./Ambience";
 export function Hero() {
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const bx = useTransform(mx, (v) => v * -20);
-  const by = useTransform(my, (v) => v * -20);
-  const fx = useTransform(mx, (v) => v * 30);
-  const fy = useTransform(my, (v) => v * 30);
+  // Background parallax (3px)
+  const bx = useTransform(mx, (v) => v * -3);
+  const by = useTransform(my, (v) => v * -3);
+  // Mascot parallax (15px)
+  const fx = useTransform(mx, (v) => v * 15);
+  const fy = useTransform(my, (v) => v * 15);
   const [wink, setWink] = useState(false);
   const [taunt, setTaunt] = useState(false);
 
@@ -21,28 +23,41 @@ export function Hero() {
       my.set(e.clientY / window.innerHeight - 0.5);
     };
     window.addEventListener("mousemove", h);
-    return () => window.removeEventListener("mousemove", h);
+    
+    // Auto-blink every 5-8 seconds
+    const blinkInterval = setInterval(() => {
+      setWink(true);
+      setTimeout(() => setWink(false), 200);
+    }, 5000 + Math.random() * 3000);
+    
+    return () => {
+      window.removeEventListener("mousemove", h);
+      clearInterval(blinkInterval);
+    };
   }, [mx, my]);
 
   return (
     <section
       id="home"
-      className="relative min-h-[900px] max-h-[1100px] w-full overflow-hidden pt-24 pb-16"
+      className="relative min-h-[920px] max-h-[1100px] w-full overflow-hidden pt-24 pb-16"
     >
-      <div className="absolute inset-0">
+      <motion.div
+        style={{ x: bx, y: by }}
+        className="absolute inset-0 z-0"
+      >
         <img
           src={banner}
           alt=""
-          className="w-full h-full object-contain object-center opacity-100"
+          className="w-full h-full object-contain object-center opacity-100 pointer-events-none user-select-none"
         />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, oklch(0.08 0.02 145 / 35%) 0%, oklch(0.08 0.02 145 / 40%) 40%, oklch(0.08 0.02 145 / 95%) 100%)",
+              "linear-gradient(90deg, rgba(0,0,0,.75) 0%, rgba(0,0,0,.25) 100%)",
           }}
         />
-      </div>
+      </motion.div>
 
       <Fog />
       <Fireflies count={50} />
@@ -152,8 +167,14 @@ export function Hero() {
           className="relative flex justify-center md:justify-end"
         >
           <motion.div
-            animate={{ y: [0, -18, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ 
+              y: [0, -3, 0], // 3px floating
+              scale: [1, 1.02, 1] // breathing
+            }}
+            transition={{ 
+              y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+              scale: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+            }}
             className="relative"
           >
             <div
@@ -168,7 +189,7 @@ export function Hero() {
                 setTimeout(() => setWink(false), 900);
               }}
               whileTap={{ scale: 0.95, rotate: -3 }}
-              className="relative w-[min(520px,90vw)] cursor-pointer drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+              className="relative w-[min(620px,90vw)] cursor-pointer drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
             />
             {wink && (
               <motion.div
