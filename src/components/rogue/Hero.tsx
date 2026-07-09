@@ -27,25 +27,22 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-[100svh] w-full overflow-hidden pt-24 pb-16"
+      className="relative min-h-[900px] max-h-[1100px] w-full overflow-hidden pt-24 pb-16"
     >
-      <motion.div
-        style={{ x: bx, y: by, scale: 1 }}
-        className="absolute inset-0"
-      >
+      <div className="absolute inset-0">
         <img
           src={banner}
           alt=""
-          className="w-full h-full object-cover opacity-70"
+          className="w-full h-full object-contain object-center opacity-100"
         />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, oklch(0.08 0.02 145 / 70%) 0%, oklch(0.08 0.02 145 / 40%) 40%, oklch(0.08 0.02 145 / 95%) 100%)",
+              "linear-gradient(180deg, oklch(0.08 0.02 145 / 35%) 0%, oklch(0.08 0.02 145 / 40%) 40%, oklch(0.08 0.02 145 / 95%) 100%)",
           }}
         />
-      </motion.div>
+      </div>
 
       <Fog />
       <Fireflies count={50} />
@@ -57,7 +54,7 @@ export function Hero() {
         style={{ background: "radial-gradient(circle, var(--lime), transparent 60%)" }}
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 grid md:grid-cols-2 gap-10 items-center min-h-[80svh]">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 grid md:grid-cols-[55%_45%] gap-10 items-center min-h-[80svh]">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
