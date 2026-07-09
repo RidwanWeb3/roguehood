@@ -2,14 +2,21 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export function Fireflies({ count = 30 }: { count?: number }) {
-  const [dots] = useState(() =>
-    Array.from({ length: count }, () => ({
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      delay: Math.random() * 4,
-      size: 2 + Math.random() * 4,
-    })),
-  );
+  const [dots, setDots] = useState<Array<{ left: number; top: number; delay: number; size: number }> | null>(null);
+  
+  useEffect(() => {
+    setDots(
+      Array.from({ length: count }, () => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        delay: Math.random() * 4,
+        size: 2 + Math.random() * 4,
+      })),
+    );
+  }, [count]);
+
+  if (!dots) return null;
+
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {dots.map((d, i) => (
@@ -31,26 +38,42 @@ export function Fireflies({ count = 30 }: { count?: number }) {
 }
 
 export function FloatingLeaves() {
-  const leaves = Array.from({ length: 12 }, (_, i) => i);
+  const [leaves, setLeaves] = useState<Array<{ id: number; y1: number; y2: number; y3: number; duration: number; top: number }> | null>(null);
+
+  useEffect(() => {
+    setLeaves(
+      Array.from({ length: 12 }, (_, i) => ({
+        id: i,
+        y1: Math.random() * 600,
+        y2: Math.random() * 600,
+        y3: Math.random() * 600 + 100,
+        duration: 18 + Math.random() * 10,
+        top: Math.random() * 90,
+      })),
+    );
+  }, []);
+
+  if (!leaves) return null;
+
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {leaves.map((i) => (
+      {leaves.map((leaf) => (
         <motion.div
-          key={i}
-          initial={{ x: -50, y: Math.random() * 600, rotate: 0 }}
+          key={leaf.id}
+          initial={{ x: -50, y: leaf.y1, rotate: 0 }}
           animate={{
             x: ["-5vw", "105vw"],
-            y: [Math.random() * 600, Math.random() * 600 + 100],
+            y: [leaf.y2, leaf.y3],
             rotate: [0, 360],
           }}
           transition={{
-            duration: 18 + Math.random() * 10,
+            duration: leaf.duration,
             repeat: Infinity,
-            delay: i * 1.5,
+            delay: leaf.id * 1.5,
             ease: "linear",
           }}
           className="absolute"
-          style={{ top: `${Math.random() * 90}%` }}
+          style={{ top: `${leaf.top}%` }}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path
