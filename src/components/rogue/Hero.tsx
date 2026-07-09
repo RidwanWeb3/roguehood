@@ -229,13 +229,13 @@ export function Hero() {
           style={{ x: fx, y: fy }}
           className="relative flex justify-center md:justify-end"
         >
-          {/* Speech Bubble */}
+          {/* Speech Bubble - Comic Style */}
           <motion.div
-            className="absolute -left-64 top-0 z-20 pointer-events-none"
+            className="absolute -top-32 -left-16 md:-left-24 z-20 pointer-events-none"
             animate={{ 
               y: [0, -5, 0],
               opacity: [0.98, 1, 0.98],
-              scale: isHovered ? 1.03 : [1, 1.01, 1]
+              scale: isHovered ? 1.05 : [1, 1.02, 1]
             }}
             transition={{ 
               y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
@@ -243,11 +243,15 @@ export function Hero() {
               scale: { duration: 0.3 }
             }}
           >
-            <div className="relative bg-black border-2 border-lime-400 rounded-2xl p-4 shadow-lg" style={{ boxShadow: isHovered ? "0 0 30px rgba(0, 255, 0, 0.5)" : "0 0 20px rgba(0, 255, 0, 0.3)" }}>
-              <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-lime-400 border-b-8 border-b-transparent"></div>
-              <p className="text-white font-display text-sm md:text-base whitespace-pre-line">
+            <div className="relative bg-yellow-300 border-4 border-black rounded-3xl p-5 shadow-2xl" style={{
+              boxShadow: isHovered ? "0 0 40px rgba(255, 255, 0, 0.6)" : "0 0 20px rgba(0, 0, 0, 0.5)",
+              fontFamily: "Comic Sans MS, cursive, sans-serif"
+            }}>
+              {/* Curved tail pointing to mascot */}
+              <div className="absolute -bottom-5 left-10 w-12 h-12 bg-yellow-300 border-b-4 border-r-4 border-black rounded-br-full transform rotate-45"></div>
+              <p className="text-black font-bold text-base md:text-xl whitespace-pre-line">
                 {displayedText}
-                {isTyping && <span className="animate-pulse">|</span>}
+                {isTyping && <span className="animate-pulse">...</span>}
               </p>
             </div>
           </motion.div>
