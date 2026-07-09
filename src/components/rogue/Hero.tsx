@@ -5,95 +5,18 @@ import logo from "@/assets/roguehood.png";
 import { Send, Coins } from "lucide-react";
 import { Fireflies, FloatingLeaves, Fog } from "./Ambience";
 
-// Dialogue messages
+// Simple, clear dialogue messages
 const dialogues = [
-  // Welcome
-  "👋 Hey, Rogue!\nWelcome to my hideout.",
-  "You're finally here!\nI saved a spot just for you.",
-  "You found us!\nNow don't tell the guards.",
-  "Good timing.\nThe gang was waiting for you.",
-  "Welcome to Roguehood.\nYou're one of us now.",
-  "The forest feels safer already.",
-  "You've entered Rogue territory.\nRelax...\nWe're friendly.\nMost of the time.",
-  "The moon is bright.\nThe treasure is waiting.",
-  "I've been expecting you.",
-  "Ready for some adventure?",
-  // Funny
-  "Don't worry...\nI only steal attention.",
-  "I tried being a hero.\nToo much paperwork.",
-  "Heroes wear capes.\nRogues wear style.",
-  "Trust me.\nThe guards never catch me.",
-  "No taxes.\nOnly memes.",
-  "My lawyer said...\nDon't finish that sentence.",
-  "Shhh...\nThe whales are sleeping.",
-  "I don't rug.\nI run.",
-  "If you found this website...\nYou're already smarter than average.",
-  "The treasure chest isn't full.\nYet.",
-  // Community
-  "Every Rogue matters.",
-  "One Gang.\nOne Hood.",
-  "Together we're louder.",
-  "No kings.\nNo bosses.\nOnly community.",
-  "Every holder is family.",
-  "The Hood belongs to everyone.",
-  "Built by Rogues.\nPowered by community.",
-  "Nobody gets left behind.",
-  "Community first.\nAlways.",
-  "The strongest treasure is friendship.\n(Okay... and memes.)",
-  // Meme
-  "Memes today.\nLegends tomorrow.",
-  "Warning.\nThis website contains dangerous amounts of memes.",
-  "Side effects may include\nlaughing\nbuying\nand never leaving.",
-  "100% Meme Energy.",
-  "Certified Rogue.",
-  "Fresh memes daily.\nProbably.",
-  "Stay Rogue.\nStay Weird.",
-  "Normal is boring.",
-  "If you're smiling...\nMy mission is complete.",
-  // Robinhood
-  "Robinhood Chain feels like home.",
-  "Green never looked this good.",
-  "Robinhood called.\nThey said we're too cool.",
-  "The Hood is growing.\nCome with us.",
-  "Built on Robinhood.\nBuilt for everyone.",
-  // Buy Reminder
-  "I'm not telling you what to do...\nBut that Buy button looks lonely.",
-  "I heard clicking BUY increases happiness.\nNot financial advice.",
-  "That BUY button is getting impatient.",
-  "Need a sign?\nThis is your sign.",
-  "I'm just a fox.\nBut I'd click BUY.",
-  "The treasure starts there.\n↓\nBUY",
-  // Adventure
-  "Adventure starts with one click.",
-  "Every legend begins somewhere.",
-  "Today's journey becomes tomorrow's story.",
-  "The forest hides many secrets.",
-  "Follow me.\nI'll show you around.",
-  "Ready to become a legend?",
-  "The castle is waiting.",
-  "The Hood is bigger than it looks.",
-  // Treasure
-  "The real treasure isn't gold.\nIt's the community.",
-  "Still looking for treasure?\nYou found it.",
-  "Gold disappears.\nLegends don't.",
-  "Treasure comes.\nTreasure goes.\nCommunity stays.",
-  // Outlaw
-  "Heroes follow rules.\nRogues rewrite them.",
-  "Not every outlaw is bad.\nSome build communities.",
-  "Breaking expectations.\nNot trust.",
-  "Being different is our superpower.",
-  "Rules?\nWe make better ones.",
-  // Random
-  "Looking good today.",
-  "Nice wallet.",
-  "Don't forget to smile.",
-  "The moon looks great tonight.",
-  "I like your vibe.",
-  "This cape?\nLimited edition.",
-  "My arrows never miss.\nMostly.",
-  "Still reading?\nGo explore.",
-  "Welcome home, Rogue.",
-  "Let's make history together.",
+  "👋 Hey there!",
+  "Welcome to Roguehood!",
+  "Click me for a surprise!",
+  "Nice to meet you!",
+  "Ready for adventure?",
+  "Join the gang!",
+  "Stay a while!",
+  "You're awesome!",
+  "Welcome home!",
+  "Let's have fun!",
 ];
 
 export function Hero() {
@@ -112,6 +35,7 @@ export function Hero() {
   const [isTyping, setIsTyping] = useState(false);
   const [lastIndex, setLastIndex] = useState(-1);
   const [isHovered, setIsHovered] = useState(false);
+  const [bounceKey, setBounceKey] = useState(0);
 
   // Function to get random dialogue (not repeating previous)
   const getRandomDialogue = () => {
@@ -329,6 +253,8 @@ export function Hero() {
           </motion.div>
 
           <motion.div
+            key={bounceKey}
+            initial={{ scale: 1 }}
             animate={{ 
               y: [0, -3, 0], // 3px floating
               scale: [1, 1.02, 1], // breathing
@@ -337,7 +263,11 @@ export function Hero() {
             transition={{ 
               y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
               scale: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-              rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+              rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+              // Bounce on click
+              type: "spring",
+              stiffness: 300,
+              damping: 15
             }}
             className="relative cursor-pointer"
             onMouseEnter={() => {
@@ -356,6 +286,7 @@ export function Hero() {
               // Trigger reaction
               setWink(true);
               setTimeout(() => setWink(false), 200);
+              // Trigger bounce (handled by key change)
             }}
           >
             <div
