@@ -30,7 +30,7 @@ export function Hero() {
       className="relative min-h-[100svh] w-full overflow-hidden pt-24 pb-16"
     >
       <motion.div
-        style={{ x: bx, y: by, scale: 1.1 }}
+        style={{ x: bx, y: by, scale: 1 }}
         className="absolute inset-0"
       >
         <img
