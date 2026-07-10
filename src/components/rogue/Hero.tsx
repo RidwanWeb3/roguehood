@@ -161,7 +161,7 @@ export function Hero() {
 
         <motion.div
           style={{ x: fx, y: fy }}
-          className="relative flex justify-center md:justify-end"
+          className="relative flex justify-center md:justify-center pr-2"
         >
           <motion.div
             initial={{ scale: 1 }}
