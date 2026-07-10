@@ -11,7 +11,7 @@ import {
   Twitter,
   ChevronDown,
 } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import banner from "@/assets/banneer.png";
 import logo from "@/assets/roguehood.png";
 
