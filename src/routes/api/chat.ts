@@ -56,8 +56,8 @@ Respond in a way that feels natural, fun, friendly, immersive, and like a cartoo
 
           return createUIMessageStreamResponse({ stream: toUIMessageStream(result) });
         } catch (error) {
-          console.error(error);
-          return new Response('Internal Server Error', { status: 500 });
+          console.error('Error in /api/chat:', error);
+          return new Response(`Internal Server Error: ${error}`, { status: 500 });
         }
       },
     },
