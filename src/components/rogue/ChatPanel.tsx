@@ -1,0 +1,129 @@
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Send } from "lucide-react";
+import { useChat } from "@ai-sdk/react";
+
+interface ChatPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onEmotionChange: (emotion: string) => void;
+}
+
+export function ChatPanel({ isOpen, onClose, onEmotionChange }: ChatPanelProps) {
+  const { messages, input, handleInputChange, handleSubmit, isLoading } =
+    useChat({
+      api: "/api/talk",
+      onResponse: () => {
+        onEmotionChange("happy");
+      },
+      onFinish: () => {
+          onEmotionChange("idle");
+        },
+      onError: () => {
+          onEmotionChange("confused");
+        },
+    });
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isLoading) {
+      onEmotionChange("thinking");
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 50 }}
+          className="w-full max-w-2xl mx-auto mt-6"
+        >
+          <div className="bg-[#0B0F0A] border-2 border-lime-400 rounded-2xl p-6 shadow-2xl relative">
+            <div className="mb-4 flex items-center justify-between border-b border-lime-400/30 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-lime-400 rounded-full flex items-center justify-center">
+                  🦊
+                </div>
+                <div>
+                  <h3 className="font-display text-lime-400 font-bold">Rogue</h3>
+                  <p className="text-white/70 text-xs">Ready for an adventure?</p>
+                </div>
+              </div>
+              <button
+                onClick={onClose} className="text-white/70 hover:text-white">
+                ✕
+              </button>
+            </div>
+
+            <div className="h-64 overflow-y-auto mb-4 space-y-4 pr-2">
+              {messages.length === 0 && (
+                <div className="text-center py-10 text-white/70">
+                  <p>Ask me anything about Roguehood!</p>
+                </div>
+              )}
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex gap-3 ${
+                  message.role === "user" ? "justify-end" : "justify-start"
+                }`}
+                >
+                  {message.role === "assistant" && (
+                    <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center flex-shrink-0">
+                      🦊
+                    </div>
+                  )}
+                  <div
+                    className={`max-w-[80%] p-3 rounded-xl ${
+                      message.role === "user"
+                        ? "bg-lime-400 text-black"
+                        : "bg-white/10 text-white"
+                    }`}
+                  >
+                    <p className="text-sm">{message.content}</p>
+                  </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex gap-3">
+                  <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    🦊
+                  </div>
+                  <div className="bg-white/10 text-white p-3 rounded-xl">
+                    <p className="text-sm flex items-center gap-1">
+                      <span className="animate-pulse">Hmm...</span>
+                    </p>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            <form onSubmit={handleSubmit} className="flex gap-2">
+              <input
+                value={input}
+                onChange={handleInputChange}
+                placeholder="Ask Rogue anything..."
+                className="flex-1 bg-white/10 border border-lime-400/30 rounded-xl px-4 py-2 text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-lime-400"
+              />
+              <button
+                type="submit"
+                disabled={isLoading || !input.trim()}
+                className="bg-lime-400 text-black px-4 py-2 rounded-xl hover:bg-lime-300 disabled:opacity-50"
+              >
+                <Send size={16} />
+              </button>
+            </form>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}

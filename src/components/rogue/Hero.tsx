@@ -2,8 +2,9 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 import banner from "@/assets/hero.png";
 import logo from "@/assets/roguehood.png";
-import { Send, Coins } from "lucide-react";
+import { Send, Coins, MessageSquare } from "lucide-react";
 import { Fireflies, FloatingLeaves, Fog } from "./Ambience";
+import { ChatPanel } from "./ChatPanel";
 
 export function Hero() {
   const mx = useMotionValue(0);
@@ -16,6 +17,8 @@ export function Hero() {
   const fy = useTransform(my, (v) => v * 15);
   const [wink, setWink] = useState(false);
   const [taunt, setTaunt] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [emotion, setEmotion] = useState("idle");
 
   useEffect(() => {
     const h = (e: MouseEvent) => {
@@ -169,14 +172,14 @@ export function Hero() {
           <motion.div
             initial={{ scale: 1 }}
             animate={{ 
-              y: [0, -3, 0], // 3px floating
-              scale: [1, 1.02, 1], // breathing
-              rotate: [0, -1, 0] // slight head tilt
+              y: emotion === "excited" ? [0, -10, 0] : [0, -3, 0],
+              scale: emotion === "happy" ? [1, 1.05, 1] : [1, 1.02, 1],
+              rotate: emotion === "thinking" ? [-5, 5, -5] : [0, -1, 0],
             }}
             transition={{ 
-              y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-              scale: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-              rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+              y: { duration: emotion === "excited" ? 0.5 : 4, repeat: Infinity, ease: "easeInOut" },
+              scale: { duration: emotion === "happy" ? 0.8 : 3, repeat: Infinity, ease: "easeInOut" },
+              rotate: { duration: emotion === "thinking" ? 1 : 5, repeat: Infinity, ease: "easeInOut" }
             }}
             className="relative cursor-pointer"
           >
@@ -205,6 +208,36 @@ export function Hero() {
               </motion.div>
             )}
           </motion.div>
+
+          {/* Talk Button & Chat Panel */}
+          <div className="w-full mt-6 md:mt-10">
+            {!isChatOpen ? (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setIsChatOpen(true)}
+                className="mx-auto flex items-center gap-3 bg-[#0B0F0A] border-2 border-lime-400 px-6 py-4 rounded-2xl shadow-lg hover:shadow-lime-400/30 transition-all"
+              >
+                <div className="w-10 h-10 bg-lime-400 rounded-full flex items-center justify-center">
+                  🦊
+                </div>
+                <div className="text-left">
+                  <h4 className="font-display text-lime-400 font-bold text-lg">Rogue</h4>
+                  <p className="text-white/70 text-sm">Ready for an adventure?</p>
+                </div>
+                <div className="ml-auto bg-lime-400 text-black px-4 py-2 rounded-xl font-bold">
+                  <MessageSquare size={18} className="inline mr-2" />
+                  Talk With Rogue
+                </div>
+              </motion.button>
+            ) : (
+              <ChatPanel
+                isOpen={isChatOpen}
+                onClose={() => setIsChatOpen(false)}
+                onEmotionChange={setEmotion}
+              />
+            )}
+          </div>
 
           {/* Floating coins */}
           {[0, 1, 2, 3].map((i) => (
