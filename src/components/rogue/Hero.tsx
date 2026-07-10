@@ -72,7 +72,7 @@ export function Hero() {
         style={{ background: "radial-gradient(circle, var(--lime), transparent 60%)" }}
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 grid md:grid-cols-[55%_45%] gap-10 items-center min-h-[80svh]">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 grid md:grid-cols-[50%_50%] gap-10 items-center min-h-[80svh]">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -195,7 +195,7 @@ export function Hero() {
                 setTimeout(() => setWink(false), 900);
               }}
               whileTap={{ scale: 0.95, rotate: -3 }}
-              className="relative w-[min(620px,90vw)] cursor-pointer drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+              className="relative w-[min(680px,90vw)] cursor-pointer drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
             />
             {wink && (
               <motion.div
