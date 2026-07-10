@@ -66,7 +66,7 @@ export function Hero() {
       <Fireflies count={50} />
       <FloatingLeaves />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 grid md:grid-cols-[48%_52%] gap-10 items-center min-h-[80svh]">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 grid md:grid-cols-[45%_55%] gap-6 items-center min-h-[80svh]">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -161,7 +161,7 @@ export function Hero() {
 
         <motion.div
           style={{ x: fx, y: fy }}
-          className="relative flex justify-center md:justify-center pr-2"
+          className="relative flex justify-center md:justify-center pr-4"
         >
           <motion.div
             initial={{ scale: 1 }}
