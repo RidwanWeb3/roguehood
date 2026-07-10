@@ -1,8 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { createOpenAI } from '@ai-sdk/openai';
 import { streamText, toUIMessageStream, createUIMessageStreamResponse } from 'ai';
-import fs from 'fs/promises';
-import path from 'path';
+import about from '@/knowledge/about.md?raw';
+import character from '@/knowledge/character.md?raw';
+import community from '@/knowledge/community.md?raw';
+import faq from '@/knowledge/faq.md?raw';
+import lore from '@/knowledge/lore.md?raw';
+import robinhood from '@/knowledge/robinhood.md?raw';
+import story from '@/knowledge/story.md?raw';
+import tokenomics from '@/knowledge/tokenomics.md?raw';
 
 const openrouter = createOpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
@@ -11,21 +17,16 @@ const openrouter = createOpenAI({
 
 // Load knowledge base
 async function loadKnowledgeBase() {
-  const knowledgeDir = path.join(process.cwd(), 'src', 'knowledge');
-  const files = await fs.readdir(knowledgeDir);
-  const knowledge: string[] = [];
-
-  for (const file of files) {
-    if (file.endsWith('.md')) {
-      const content = await fs.readFile(
-        path.join(knowledgeDir, file),
-        'utf-8'
-      );
-      knowledge.push(`# ${file}\n${content}`);
-    }
-  }
-
-  return knowledge.join('\n\n');
+  return [
+    '# about.md\n' + about,
+    '# character.md\n' + character,
+    '# community.md\n' + community,
+    '# faq.md\n' + faq,
+    '# lore.md\n' + lore,
+    '# robinhood.md\n' + robinhood,
+    '# story.md\n' + story,
+    '# tokenomics.md\n' + tokenomics,
+  ].join('\n\n');
 }
 
 export const Route = createFileRoute('/api/chat')({
