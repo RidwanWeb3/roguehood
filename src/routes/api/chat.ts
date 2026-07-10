@@ -46,12 +46,26 @@ export const Route = createFileRoute('/api/chat')({
           const { messages } = await request.json();
           const knowledge = await loadKnowledgeBase();
 
-          console.log('Final messages payload before streamText:', messages.map((msg: any) => ({
-            role: msg.role,
-            content: msg.content,
-            type: msg.type,
-            parts: msg.parts,
-          })));
+          console.log('messages:', messages);
+
+          // Convert UIMessage[] to ModelMessage[] by merging text parts
+          const modelMessages = messages.map((msg: any) => {
+            let content = '';
+            if (msg.content) {
+              content = msg.content;
+            } else if (msg.parts) {
+              content = msg.parts
+                .filter((part: any) => part.type === 'text')
+                .map((part: any) => part.text)
+                .join('');
+            }
+            return {
+              role: msg.role,
+              content: content,
+            };
+          });
+
+          console.log('modelMessages:', modelMessages);
 
           const systemPrompt = `You are Rogue, a funny, playful, confident, kind, sarcastic, witty fox who is a legendary outlaw living in Sherwood Forest. You are the mascot of Roguehood, a community-driven meme project on Robinhood Chain.
 
@@ -67,7 +81,7 @@ Respond in a way that feels natural, fun, friendly, immersive, and like a cartoo
           const result = streamText({
             model: openrouter.chat(MODEL_ID),
             system: systemPrompt,
-            messages: messages,
+            messages: modelMessages,
           });
 
           return createUIMessageStreamResponse({ stream: toUIMessageStream(result) });
