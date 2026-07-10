@@ -233,33 +233,7 @@ export function Hero() {
             )}
           </div>
 
-          {/* Floating coins */}
-          {[0, 1, 2, 3].map((i) => (
-            <motion.div
-              key={i}
-              className="absolute"
-              style={{
-                left: `${20 + i * 15}%`,
-                top: `${10 + (i % 2) * 60}%`,
-              }}
-              animate={{ y: [0, -20, 0], rotate: [0, 360] }}
-              transition={{
-                duration: 4 + i,
-                repeat: Infinity,
-                delay: i * 0.6,
-                ease: "easeInOut",
-              }}
-            >
-              <div
-                className="w-6 h-6 rounded-full"
-                style={{
-                  background:
-                    "radial-gradient(circle at 30% 30%, oklch(0.95 0.18 95), var(--gold))",
-                  boxShadow: "0 0 12px var(--gold)",
-                }}
-              />
-            </motion.div>
-          ))}
+
         </motion.div>
       </div>
 
