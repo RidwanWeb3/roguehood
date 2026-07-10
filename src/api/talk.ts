@@ -1,5 +1,5 @@
 import { createOpenAI } from "@ai-sdk/openai";
-import { streamText } from "ai";
+import { streamText, toUIMessageStream, createUIMessageStreamResponse } from "ai";
 import fs from "fs/promises";
 import path from "path";
 
@@ -29,7 +29,7 @@ async function loadKnowledgeBase() {
 
 export async function POST(request: Request) {
   try {
-    const { messages, userId } = await request.json();
+    const { messages } = await request.json();
     const knowledge = await loadKnowledgeBase();
 
     const systemPrompt = `You are Rogue, a funny, playful, confident, kind, sarcastic, witty fox who is a legendary outlaw living in Sherwood Forest. You are the mascot of Roguehood, a community-driven meme project on Robinhood Chain.
@@ -45,13 +45,11 @@ Respond in a way that feels natural, fun, friendly, immersive, and like a cartoo
 
     const result = streamText({
       model: openrouter("perplexity/owl-alpha-1:free"),
-      messages: [
-        { role: "system", content: systemPrompt },
-        ...messages,
-      ],
+      system: systemPrompt,
+      messages: messages,
     });
 
-    return result.toDataStreamResponse();
+    return createUIMessageStreamResponse({ stream: toUIMessageStream(result) });
   } catch (error) {
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });

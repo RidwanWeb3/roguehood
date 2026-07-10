@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Send } from "lucide-react";
-import { useChat } from "@ai-sdk/react";
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Send } from 'lucide-react';
+import { useChat, type UIMessage } from '@ai-sdk/react';
 
 interface ChatPanelProps {
   isOpen: boolean;
@@ -9,32 +9,43 @@ interface ChatPanelProps {
   onEmotionChange: (emotion: string) => void;
 }
 
+// Helper to extract text from UIMessage parts
+function getMessageText(message: UIMessage): string {
+  return message.parts
+    .filter((part) => part.type === 'text')
+    .map((part) => (part as { text: string }).text)
+    .join('');
+}
+
 export function ChatPanel({ isOpen, onClose, onEmotionChange }: ChatPanelProps) {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } =
-    useChat({
-      api: "/api/talk",
-      onResponse: () => {
-        onEmotionChange("happy");
-      },
-      onFinish: () => {
-          onEmotionChange("idle");
-        },
-      onError: () => {
-          onEmotionChange("confused");
-        },
-    });
+  const { messages, sendMessage, status } = useChat({
+    onFinish: () => {
+      onEmotionChange('idle');
+    },
+    onError: () => {
+      onEmotionChange('confused');
+    },
+  });
+  const [input, setInput] = useState('');
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isLoading) {
-      onEmotionChange("thinking");
+    if (status === 'submitted' || status === 'streaming') {
+      onEmotionChange('thinking');
     }
-  }, [isLoading]);
+  }, [status, onEmotionChange]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    await sendMessage({ text: input });
+    setInput('');
+  };
 
   return (
     <AnimatePresence>
@@ -57,7 +68,9 @@ export function ChatPanel({ isOpen, onClose, onEmotionChange }: ChatPanelProps) 
                 </div>
               </div>
               <button
-                onClick={onClose} className="text-white/70 hover:text-white">
+                onClick={onClose}
+                className="text-white/70 hover:text-white"
+              >
                 ✕
               </button>
             </div>
@@ -72,26 +85,26 @@ export function ChatPanel({ isOpen, onClose, onEmotionChange }: ChatPanelProps) 
                 <div
                   key={message.id}
                   className={`flex gap-3 ${
-                  message.role === "user" ? "justify-end" : "justify-start"
-                }`}
+                    message.role === 'user' ? 'justify-end' : 'justify-start'
+                  }`}
                 >
-                  {message.role === "assistant" && (
+                  {message.role === 'assistant' && (
                     <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center flex-shrink-0">
                       🦊
                     </div>
                   )}
                   <div
                     className={`max-w-[80%] p-3 rounded-xl ${
-                      message.role === "user"
-                        ? "bg-lime-400 text-black"
-                        : "bg-white/10 text-white"
+                      message.role === 'user'
+                        ? 'bg-lime-400 text-black'
+                        : 'bg-white/10 text-white'
                     }`}
                   >
-                    <p className="text-sm">{message.content}</p>
+                    <p className="text-sm">{getMessageText(message)}</p>
                   </div>
                 </div>
               ))}
-              {isLoading && (
+              {(status === 'submitted' || status === 'streaming') && (
                 <div className="flex gap-3">
                   <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center flex-shrink-0">
                     🦊
@@ -109,13 +122,13 @@ export function ChatPanel({ isOpen, onClose, onEmotionChange }: ChatPanelProps) 
             <form onSubmit={handleSubmit} className="flex gap-2">
               <input
                 value={input}
-                onChange={handleInputChange}
+                onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask Rogue anything..."
                 className="flex-1 bg-white/10 border border-lime-400/30 rounded-xl px-4 py-2 text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-lime-400"
               />
               <button
                 type="submit"
-                disabled={isLoading || !input.trim()}
+                disabled={!input.trim() || status === 'submitted' || status === 'streaming'}
                 className="bg-lime-400 text-black px-4 py-2 rounded-xl hover:bg-lime-300 disabled:opacity-50"
               >
                 <Send size={16} />

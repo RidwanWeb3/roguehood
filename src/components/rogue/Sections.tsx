@@ -411,6 +411,12 @@ export function FAQ() {
 }
 
 export function Footer() {
+  const [year, setYear] = useState<string | number>("");
+  
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
   return (
     <footer className="relative pt-24 pb-10 px-6 overflow-hidden">
       <div
@@ -461,7 +467,7 @@ export function Footer() {
         </div>
       </div>
       <div className="relative mt-14 pt-6 border-t border-lime/10 text-center text-white/40 text-xs font-display tracking-widest">
-        © {new Date().getFullYear()} ROGUEHOOD — BUILT BY OUTLAWS, FOR THE COMMUNITY.
+        © {year} ROGUEHOOD — BUILT BY OUTLAWS, FOR THE COMMUNITY.
       </div>
     </footer>
   );
