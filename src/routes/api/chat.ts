@@ -13,6 +13,11 @@ import tokenomics from '@/knowledge/tokenomics.md?raw';
 const openrouter = createOpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
   apiKey: process.env.OPENROUTER_API_KEY,
+  name: 'openrouter',
+  headers: {
+    'HTTP-Referer': 'https://roguehood.fun',
+    'X-Title': 'Roguehood',
+  },
 });
 
 // Load knowledge base
@@ -34,6 +39,7 @@ export const Route = createFileRoute('/api/chat')({
     handlers: {
       POST: async ({ request }) => {
         try {
+          console.log('OPENROUTER_API_KEY is set:', !!process.env.OPENROUTER_API_KEY);
           const { messages } = await request.json();
           const knowledge = await loadKnowledgeBase();
 
