@@ -189,7 +189,7 @@ export function Hero() {
                 setTimeout(() => setWink(false), 900);
               }}
               whileTap={{ scale: 0.95, rotate: -3 }}
-              className="relative w-[min(680px,90vw)] cursor-pointer drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+              className="relative w-[min(640px,90vw)] cursor-pointer drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
             />
             {wink && (
               <motion.div
