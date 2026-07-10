@@ -20,7 +20,6 @@ const openrouter = createOpenAI({
     'HTTP-Referer': 'https://roguehood.fun',
     'X-Title': 'Roguehood',
   },
-  compatibility: 'strict', // Use Chat Completions API (v1/chat/completions) instead of Responses API (v1/responses)
 });
 
 // Load knowledge base
@@ -66,7 +65,7 @@ ${knowledge}
 Respond in a way that feels natural, fun, friendly, immersive, and like a cartoon character.`;
 
           const result = streamText({
-            model: openrouter(MODEL_ID),
+            model: openrouter.chat(MODEL_ID),
             system: systemPrompt,
             messages: messages,
           });
