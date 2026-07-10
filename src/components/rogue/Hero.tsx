@@ -4,35 +4,6 @@ import banner from "@/assets/hero.png";
 import logo from "@/assets/roguehood.png";
 import { Send, Coins } from "lucide-react";
 import { Fireflies, FloatingLeaves, Fog } from "./Ambience";
-import { SpeechBubble } from "./SpeechBubble";
-
-// Dialogue messages (20+)
-const dialogues = [
-  "👋 Hey, Rogue!\nWelcome to my hideout.\nThe gang has been waiting for you.",
-  "😏 Looking for treasure?\nThe real treasure is the community.",
-  "🦊 Heroes chase glory.\nRogues build legends.",
-  "🏹 Don't tell the guards...\nYou're safe here.",
-  "💚 One Hood.\nOne Community.\nOne Mission.",
-  "🚀 Ready for the next legendary meme?\nYou're in the right place.",
-  "😄 Stay a while.\nExplore the Hood.",
-  "💰 I don't steal from friends...\nOnly from boring websites.",
-  "🔥 This isn't just another meme.\nIt's a movement.",
-  "🌙 The moon is up...\nPerfect time for Rogues.",
-  "🎉 Welcome, friend!\nThe forest feels brighter with you here.",
-  "🤫 Shhh... the whales are sleeping.\nPerfect time to explore.",
-  "✨ Ready to make history?\nYou're in the right place.",
-  "🏰 The castle is waiting.\nLet's go exploring.",
-  "🍃 The leaves are falling...\nJust like the prices of boring coins.",
-  "🌟 You're special.\nDon't let anyone tell you otherwise.",
-  "🎭 Normal is boring.\nBe a Rogue.",
-  "💎 The best treasure is friendship...\nAnd memes, of course.",
-  "⚡ Quick, click BUY!\nJust kidding... or am I?",
-  "🌲 The forest is alive...\nAnd so is our community.",
-  "🎯 My arrows never miss...\nMostly.",
-  "👑 No kings, no bosses.\nJust Rogues.",
-  "📜 Today's story is yours to write.",
-  "🎨 Let's create something legendary together."
-];
 
 export function Hero() {
   const mx = useMotionValue(0);
@@ -45,58 +16,8 @@ export function Hero() {
   const fy = useTransform(my, (v) => v * 15);
   const [wink, setWink] = useState(false);
   const [taunt, setTaunt] = useState(false);
-  const [currentDialogue, setCurrentDialogue] = useState("");
-  const [displayedText, setDisplayedText] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const [lastIndex, setLastIndex] = useState(-1);
-  const [isHovered, setIsHovered] = useState(false);
-  const [bounceKey, setBounceKey] = useState(0);
 
-  // Function to get random dialogue (not repeating previous)
-  const getRandomDialogue = () => {
-    let index;
-    do {
-      index = Math.floor(Math.random() * dialogues.length);
-    } while (index === lastIndex);
-    setLastIndex(index);
-    return dialogues[index];
-  };
-
-  // Function to type dialogue with 35ms speed, pause 1s after typing
-  const typeDialogue = (text: string) => {
-    setIsTyping(true);
-    setDisplayedText("");
-    let i = 0;
-    const interval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayedText(text.slice(0, i + 1));
-        i++;
-      } else {
-        clearInterval(interval);
-        setTimeout(() => {
-          setIsTyping(false);
-        }, 1000);
-      }
-    }, 35);
-  };
-
-  // Change dialogue every 10-12 seconds
   useEffect(() => {
-    const changeDialogue = () => {
-      const newDialogue = getRandomDialogue();
-      setCurrentDialogue(newDialogue);
-      typeDialogue(newDialogue);
-      // Trigger mascot reaction
-      setWink(true);
-      setTimeout(() => setWink(false), 200);
-    };
-
-    // Initial dialogue
-    changeDialogue();
-
-    // Interval for changing dialogue (10-12 seconds total, including typing time)
-    const dialogueInterval = setInterval(changeDialogue, 10000 + Math.random() * 2000);
-
     const h = (e: MouseEvent) => {
       mx.set(e.clientX / window.innerWidth - 0.5);
       my.set(e.clientY / window.innerHeight - 0.5);
@@ -112,9 +33,8 @@ export function Hero() {
     return () => {
       window.removeEventListener("mousemove", h);
       clearInterval(blinkInterval);
-      clearInterval(dialogueInterval);
     };
-  }, [mx, my, lastIndex]);
+  }, [mx, my]);
 
   return (
     <section
@@ -246,48 +166,19 @@ export function Hero() {
           style={{ x: fx, y: fy }}
           className="relative flex justify-center md:justify-end"
         >
-          <SpeechBubble
-            text={displayedText}
-            isTyping={isTyping}
-            isHovered={isHovered}
-          />
-
           <motion.div
-            key={bounceKey}
             initial={{ scale: 1 }}
             animate={{ 
               y: [0, -3, 0], // 3px floating
               scale: [1, 1.02, 1], // breathing
-              rotate: isHovered ? -2 : [0, -1, 0] // slight head tilt, more on hover
+              rotate: [0, -1, 0] // slight head tilt
             }}
             transition={{ 
               y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
               scale: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-              rotate: { duration: isHovered ? 0.3 : 5, repeat: isHovered ? 0 : Infinity, ease: "easeInOut" },
-              // Bounce on click
-              type: "spring",
-              stiffness: 300,
-              damping: 15
+              rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" }
             }}
             className="relative cursor-pointer"
-            onMouseEnter={() => {
-              setIsHovered(true);
-              // Change dialogue on hover
-              const newDialogue = getRandomDialogue();
-              setCurrentDialogue(newDialogue);
-              typeDialogue(newDialogue);
-            }}
-            onMouseLeave={() => setIsHovered(false)}
-            onClick={() => {
-              // Change dialogue on click
-              const newDialogue = getRandomDialogue();
-              setCurrentDialogue(newDialogue);
-              typeDialogue(newDialogue);
-              // Trigger reaction
-              setWink(true);
-              setTimeout(() => setWink(false), 200);
-              // Trigger bounce (handled by key change)
-            }}
           >
             <div
               className="absolute inset-0 blur-3xl opacity-60"
