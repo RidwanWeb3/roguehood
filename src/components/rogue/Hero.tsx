@@ -212,8 +212,8 @@ export function Hero() {
                 onClick={() => setIsChatOpen(true)}
                 className="mx-auto flex items-center gap-3 bg-[#0B0F0A] border-2 border-lime-400 px-6 py-4 rounded-2xl shadow-lg hover:shadow-lime-400/30 transition-all"
               >
-                <div className="w-10 h-10 bg-lime-400 rounded-full flex items-center justify-center">
-                  🦊
+                <div className="w-10 h-10 bg-lime-400 rounded-full flex items-center justify-center p-1">
+                  <img src={logo} alt="Roguehood" className="w-full h-full object-contain" />
                 </div>
                 <div className="text-left">
                   <h4 className="font-display text-lime-400 font-bold text-lg">Rogue</h4>
