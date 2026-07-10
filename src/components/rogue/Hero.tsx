@@ -66,13 +66,7 @@ export function Hero() {
       <Fireflies count={50} />
       <FloatingLeaves />
 
-      {/* Moon glow */}
-      <div
-        className="pointer-events-none absolute -right-40 top-10 w-[600px] h-[600px] rounded-full blur-3xl opacity-30"
-        style={{ background: "radial-gradient(circle, var(--lime), transparent 60%)" }}
-      />
-
-      <div className="relative z-10 mx-auto max-w-7xl px-6 grid md:grid-cols-[50%_50%] gap-10 items-center min-h-[80svh]">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 grid md:grid-cols-[48%_52%] gap-10 items-center min-h-[80svh]">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
