@@ -10,6 +10,8 @@ import robinhood from '@/knowledge/robinhood.md?raw';
 import story from '@/knowledge/story.md?raw';
 import tokenomics from '@/knowledge/tokenomics.md?raw';
 
+const MODEL_ID = process.env.MODEL_ID ?? "openrouter/free";
+
 const openrouter = createOpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
   apiKey: process.env.OPENROUTER_API_KEY,
@@ -40,6 +42,7 @@ export const Route = createFileRoute('/api/chat')({
       POST: async ({ request }) => {
         try {
           console.log('OPENROUTER_API_KEY is set:', !!process.env.OPENROUTER_API_KEY);
+          console.log('MODEL_ID:', MODEL_ID);
           const { messages } = await request.json();
           const knowledge = await loadKnowledgeBase();
 
@@ -70,15 +73,32 @@ ${knowledge}
 Respond in a way that feels natural, fun, friendly, immersive, and like a cartoon character.`;
 
           const result = streamText({
-            model: openrouter('perplexity/owl-alpha-1:free'),
+            model: openrouter(MODEL_ID),
             system: systemPrompt,
             messages: modelMessages,
           });
 
           return createUIMessageStreamResponse({ stream: toUIMessageStream(result) });
-        } catch (error) {
-          console.error('Error in /api/chat:', error);
-          return new Response(`Internal Server Error: ${error}`, { status: 500 });
+        } catch (error: any) {
+          console.error('Error in /api/chat:', {
+            model: MODEL_ID,
+            status: error.status,
+            body: error.body,
+            message: error.message,
+          });
+          return new Response(
+            JSON.stringify({
+              error: 'Chat failed',
+              message: error.message,
+              model: MODEL_ID,
+            }),
+            {
+              status: error.status || 500,
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          );
         }
       },
     },
