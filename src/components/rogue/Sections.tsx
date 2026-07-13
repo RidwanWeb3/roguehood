@@ -360,7 +360,7 @@ export function Social() {
 
 const FAQS = [
   {
-    q: "What is $ROGUE?",
+    q: "What is $RGH?",
     a: "The token of the Roguehood gang on Robinhood Chain. A brand, a meme, a movement.",
   },
   {
@@ -373,7 +373,7 @@ const FAQS = [
   },
   {
     q: "How do I become a Rogue?",
-    a: "Grab a bag of $ROGUE, join the Telegram, and start stealing memes.",
+    a: "Grab a bag of $RGH, join the Telegram, and start stealing memes.",
   },
 ];
 

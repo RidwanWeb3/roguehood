@@ -140,7 +140,7 @@ export function Hero() {
             className="mt-8 flex flex-wrap gap-4"
           >
             <a href="#tokenomics" className="btn-rogue hover:scale-105">
-              <Coins size={16} /> BUY $ROGUE
+              <Coins size={16} /> BUY $RGH
             </a>
             <a
               href="https://t.me/Roguehoodfun"

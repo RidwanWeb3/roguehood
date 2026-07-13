@@ -22,7 +22,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Join the funniest outlaw community on Robinhood Chain. No kings. No villains. Just Rogues. $ROGUE — built by outlaws, for the community.",
+          "Join the funniest outlaw community on Robinhood Chain. No kings. No villains. Just Rogues. $RGH — built by outlaws, for the community.",
       },
       { property: "og:title", content: "ROGUEHOOD | The Smartest Outlaw on Robinhood Chain" },
       {

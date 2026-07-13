@@ -49,7 +49,7 @@ export function Nav() {
               {l.label}
             </a>
           ))}
-          <a href="#social" className="btn-rogue text-xs">BUY $ROGUE</a>
+          <a href="#social" className="btn-rogue text-xs">BUY $RGH</a>
         </nav>
 
         <button
@@ -77,7 +77,7 @@ export function Nav() {
               {l.label}
             </a>
           ))}
-          <a href="#social" className="btn-rogue text-xs self-start">BUY $ROGUE</a>
+          <a href="#social" className="btn-rogue text-xs self-start">BUY $RGH</a>
         </motion.div>
       )}
     </motion.header>
