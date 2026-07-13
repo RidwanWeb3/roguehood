@@ -11,7 +11,7 @@ import {
   Twitter,
   ChevronDown,
 } from "lucide-react";
-import { useState, useEffect, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import banner from "@/assets/banneer.png";
 import logo from "@/assets/roguehood.png";
 
@@ -338,7 +338,7 @@ export function Social() {
           </Reveal>
           <Reveal delay={0.1}>
             <a
-              href="https://t.me/roguehood"
+              href="https://t.me/Roguehoodfun"
               target="_blank"
               rel="noreferrer"
               className="group relative block glass rounded-2xl p-8 hover:border-lime transition-colors overflow-hidden"
@@ -411,12 +411,6 @@ export function FAQ() {
 }
 
 export function Footer() {
-  const [year, setYear] = useState<string | number>("");
-  
-  useEffect(() => {
-    setYear(new Date().getFullYear());
-  }, []);
-
   return (
     <footer className="relative pt-24 pb-10 px-6 overflow-hidden">
       <div
@@ -461,13 +455,13 @@ export function Footer() {
           </div>
           <ul className="space-y-2 text-white/70 text-sm">
             <li><a href="https://x.com/Roguehood_" target="_blank" rel="noreferrer" className="hover:text-lime">X / Twitter</a></li>
-            <li><a href="https://t.me/roguehood" target="_blank" rel="noreferrer" className="hover:text-lime">Telegram</a></li>
+            <li><a href="https://t.me/Roguehoodfun" target="_blank" rel="noreferrer" className="hover:text-lime">Telegram</a></li>
             <li><a href="https://www.roguehood.fun" className="hover:text-lime">www.roguehood.fun</a></li>
           </ul>
         </div>
       </div>
       <div className="relative mt-14 pt-6 border-t border-lime/10 text-center text-white/40 text-xs font-display tracking-widest">
-        © {year} ROGUEHOOD — BUILT BY OUTLAWS, FOR THE COMMUNITY.
+        © {new Date().getFullYear()} ROGUEHOOD — BUILT BY OUTLAWS, FOR THE COMMUNITY.
       </div>
     </footer>
   );

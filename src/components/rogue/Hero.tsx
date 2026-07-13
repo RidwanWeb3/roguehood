@@ -66,7 +66,13 @@ export function Hero() {
       <Fireflies count={50} />
       <FloatingLeaves />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 grid md:grid-cols-[45%_55%] gap-6 items-center min-h-[80svh]">
+      {/* Moon glow */}
+      <div
+        className="pointer-events-none absolute -right-40 top-10 w-[600px] h-[600px] rounded-full blur-3xl opacity-30"
+        style={{ background: "radial-gradient(circle, var(--lime), transparent 60%)" }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-6 grid md:grid-cols-[55%_45%] gap-10 items-center min-h-[80svh]">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -137,7 +143,7 @@ export function Hero() {
               <Coins size={16} /> BUY $ROGUE
             </a>
             <a
-              href="https://t.me/roguehood"
+              href="https://t.me/Roguehoodfun"
               target="_blank"
               rel="noreferrer"
               className="btn-rogue-outline hover:scale-105"
@@ -161,7 +167,7 @@ export function Hero() {
 
         <motion.div
           style={{ x: fx, y: fy }}
-          className="relative flex justify-center md:justify-center pr-4"
+          className="relative flex justify-center md:justify-end"
         >
           <motion.div
             initial={{ scale: 1 }}
@@ -189,7 +195,7 @@ export function Hero() {
                 setTimeout(() => setWink(false), 900);
               }}
               whileTap={{ scale: 0.95, rotate: -3 }}
-              className="relative w-[min(640px,90vw)] cursor-pointer drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+              className="relative w-[min(620px,90vw)] cursor-pointer drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
             />
             {wink && (
               <motion.div
@@ -212,8 +218,8 @@ export function Hero() {
                 onClick={() => setIsChatOpen(true)}
                 className="mx-auto flex items-center gap-3 bg-[#0B0F0A] border-2 border-lime-400 px-6 py-4 rounded-2xl shadow-lg hover:shadow-lime-400/30 transition-all"
               >
-                <div className="w-10 h-10 bg-lime-400 rounded-full flex items-center justify-center p-1">
-                  <img src={logo} alt="Roguehood" className="w-full h-full object-contain" />
+                <div className="w-10 h-10 bg-lime-400 rounded-full flex items-center justify-center">
+                  🦊
                 </div>
                 <div className="text-left">
                   <h4 className="font-display text-lime-400 font-bold text-lg">Rogue</h4>
@@ -233,7 +239,33 @@ export function Hero() {
             )}
           </div>
 
-
+          {/* Floating coins */}
+          {[0, 1, 2, 3].map((i) => (
+            <motion.div
+              key={i}
+              className="absolute"
+              style={{
+                left: `${20 + i * 15}%`,
+                top: `${10 + (i % 2) * 60}%`,
+              }}
+              animate={{ y: [0, -20, 0], rotate: [0, 360] }}
+              transition={{
+                duration: 4 + i,
+                repeat: Infinity,
+                delay: i * 0.6,
+                ease: "easeInOut",
+              }}
+            >
+              <div
+                className="w-6 h-6 rounded-full"
+                style={{
+                  background:
+                    "radial-gradient(circle at 30% 30%, oklch(0.95 0.18 95), var(--gold))",
+                  boxShadow: "0 0 12px var(--gold)",
+                }}
+              />
+            </motion.div>
+          ))}
         </motion.div>
       </div>
 

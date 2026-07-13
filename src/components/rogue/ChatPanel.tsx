@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send } from 'lucide-react';
 import { useChat, type UIMessage } from '@ai-sdk/react';
-import mascot from '@/assets/roguehood.png';
 
 interface ChatPanelProps {
   isOpen: boolean;
@@ -55,13 +54,13 @@ export function ChatPanel({ isOpen, onClose, onEmotionChange }: ChatPanelProps) 
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
-          className="w-full max-w-lg mx-auto mt-6"
+          className="w-full max-w-2xl mx-auto mt-6"
         >
           <div className="bg-[#0B0F0A] border-2 border-lime-400 rounded-2xl p-6 shadow-2xl relative">
             <div className="mb-4 flex items-center justify-between border-b border-lime-400/30 pb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-lime-400 rounded-full flex items-center justify-center p-1">
-                  <img src={mascot} alt="Roguehood" className="w-full h-full object-contain" />
+                <div className="w-10 h-10 bg-lime-400 rounded-full flex items-center justify-center">
+                  🦊
                 </div>
                 <div>
                   <h3 className="font-display text-lime-400 font-bold">Rogue</h3>
@@ -90,8 +89,8 @@ export function ChatPanel({ isOpen, onClose, onEmotionChange }: ChatPanelProps) 
                   }`}
                 >
                   {message.role === 'assistant' && (
-                    <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center flex-shrink-0 p-1">
-                      <img src={mascot} alt="Roguehood" className="w-full h-full object-contain" />
+                    <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center flex-shrink-0">
+                      🦊
                     </div>
                   )}
                   <div
@@ -107,9 +106,9 @@ export function ChatPanel({ isOpen, onClose, onEmotionChange }: ChatPanelProps) 
               ))}
               {(status === 'submitted' || status === 'streaming') && (
                 <div className="flex gap-3">
-                <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center flex-shrink-0 p-1">
-                  <img src={mascot} alt="Roguehood" className="w-full h-full object-contain" />
-                </div>
+                  <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    🦊
+                  </div>
                   <div className="bg-white/10 text-white p-3 rounded-xl">
                     <p className="text-sm flex items-center gap-1">
                       <span className="animate-pulse">Hmm...</span>
