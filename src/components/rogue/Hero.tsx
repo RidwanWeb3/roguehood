@@ -139,7 +139,7 @@ export function Hero() {
             transition={{ delay: 3.5, duration: 0.5 }}
             className="mt-8 flex flex-wrap gap-4"
           >
-            <a href="#tokenomics" className="btn-rogue hover:scale-105">
+            <a href="https://flap.sh/robinhood/0x499903a705025761ad33b4f14212a830a3757777?lang=en" target="_blank" rel="noreferrer" className="btn-rogue hover:scale-105">
               <Coins size={16} /> BUY $RGH
             </a>
             <a
@@ -160,7 +160,7 @@ export function Hero() {
           >
             <span className="font-display text-xs text-gold tracking-widest">CA:</span>
             <span className="font-mono text-xs text-white/70">
-              coming soon on robinhood chain
+              0x499903a705025761ad33b4f14212a830a3757777
             </span>
           </motion.div>
         </div>

@@ -49,7 +49,7 @@ export function Nav() {
               {l.label}
             </a>
           ))}
-          <a href="#social" className="btn-rogue text-xs">BUY $RGH</a>
+          <a href="https://flap.sh/robinhood/0x499903a705025761ad33b4f14212a830a3757777?lang=en" target="_blank" rel="noreferrer" className="btn-rogue text-xs">BUY $RGH</a>
         </nav>
 
         <button
@@ -77,7 +77,7 @@ export function Nav() {
               {l.label}
             </a>
           ))}
-          <a href="#social" className="btn-rogue text-xs self-start">BUY $RGH</a>
+          <a href="https://flap.sh/robinhood/0x499903a705025761ad33b4f14212a830a3757777?lang=en" target="_blank" rel="noreferrer" className="btn-rogue text-xs self-start">BUY $RGH</a>
         </motion.div>
       )}
     </motion.header>
